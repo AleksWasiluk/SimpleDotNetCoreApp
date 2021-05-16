@@ -2,9 +2,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS build
 WORKDIR /src  
 RUN git clone --single-branch -b single-library https://github.com/AleksWasiluk/SimpleDotNetCoreApp.git
 RUN cd SimpleDotNetCoreApp
-RUN dotnet publish "./TestApi/TestApi.csproj" --configuration=Release --runtime=linux-x64 --output=/app  
+RUN dotnet publish "./TestApi/TestApi.csproj" --configuration=Release
   
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS final
-WORKDIR /app
-COPY --from=build /app .  
+COPY bin/Release/net5.0/ App/
+WORKDIR /App
 ENTRYPOINT ["dotnet", "TestApi.dll"]
